@@ -1,0 +1,17 @@
+# Append these functions to your ~/.bash_profile
+
+vpn_name = "" # add the name of your VPN connection between these quotes
+
+function vpn-connect {
+echo "Initializing kill switch..."
+sudo -p '[sudo] Password:' -b python kill_switch.py # make sure kill_switch.py is in your path, otherwise update this line
+echo "Connecting to VPN..."
+scutil --nc start $vpn_name
+}
+
+function vpn-disconnect {
+echo "Stopping kill switch..."
+sudo -p '[sudo] Password:' pkill -INT -a -f kill_switch.py
+echo "Disconnecting VPN..."
+scutil --nc stop $vpn_name
+}
